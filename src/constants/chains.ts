@@ -4,6 +4,7 @@ import { localhost, mainnet, sepolia } from 'viem/chains'
 import type { Register } from '@app/local-contracts'
 import { addEnsContractsWithSubgraphAndOverrides } from '@app/overrides/addEnsContractsWithSubgraphAndOverrides'
 import { makeLocalhostChainWithEnsAndOverrides } from '@app/overrides/makeLocalhostChainWithEnsAndOverrides'
+import { electroneumTestnet } from '@app/utils/chains/electroneumChains'
 
 export const deploymentAddresses = JSON.parse(
   process.env.NEXT_PUBLIC_DEPLOYMENT_ADDRESSES || '{}',
@@ -12,6 +13,15 @@ export const deploymentAddresses = JSON.parse(
 export const localhostWithEns = makeLocalhostChainWithEnsAndOverrides<typeof localhost>(
   localhost,
   deploymentAddresses,
+)
+
+export const electroneumDeploymentAddresses = JSON.parse(
+  process.env.NEXT_PUBLIC_ETN_DEPLOYMENT_ADDRESSES || '{}',
+) as Register['deploymentAddresses']
+
+export const electroneumWithEns = makeLocalhostChainWithEnsAndOverrides<typeof electroneumTestnet>(
+  electroneumTestnet,
+  electroneumDeploymentAddresses,
 )
 
 const ENS_SUBGRAPH_API_KEY = '9ad5cff64d93ed2c33d1a57b3ec03ea9'
@@ -45,6 +55,7 @@ export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | undef
   const chain = process.env.NEXT_PUBLIC_CHAIN_NAME
   if (chain === 'sepolia') return 'sepolia' as const
   if (chain === 'mainnet') return 'mainnet' as const
+  if (chain === 'electroneum') return 'electroneum' as const
 
   // Previews
   if (segments.length === 4) {
@@ -70,9 +81,11 @@ export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | undef
 
 export const getChainsFromUrl = () => {
   const network = getNetworkFromUrl()
+  const chainsWithEns = [mainnetWithEns, sepoliaWithEns, localhostWithEns, electroneumWithEns] as const
   return match(network)
     .with('mainnet', () => [mainnetWithEns])
     .with('sepolia', () => [sepoliaWithEns])
     .with('localhost', () => [localhostWithEns])
+    .with('electroneum', () => [electroneumWithEns])
     .otherwise(() => [mainnetWithEns])
 }
