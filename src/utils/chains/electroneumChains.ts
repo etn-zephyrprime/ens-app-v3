@@ -10,6 +10,7 @@ export const electroneumMainnet = {
   blockExplorers: {
     default: { name: 'Electroneum Explorer', url: 'https://blockexplorer.electroneum.com' },
   },
+  formatters: undefined,
 } as const satisfies Chain
 
 export const electroneumTestnet = {
@@ -23,4 +24,5 @@ export const electroneumTestnet = {
     default: { name: 'Electroneum Testnet Explorer', url: 'https://testnet-blockexplorer.electroneum.com' },
   },
   testnet: true,
+  formatters: undefined,
 } as const satisfies Chain
