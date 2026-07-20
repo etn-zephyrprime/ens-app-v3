@@ -26,8 +26,8 @@ export const INVALID_NAME = '[Invalid ENS Name]'
 export const ENS_LINKS = {
   X: 'https://x.com/electroneum',
   DISCORD: 'https://discord.com/electroneum-999612117521010768',
-//  MIRROR: 'https://ens.mirror.xyz',
-//  DISCOURSE: 'https://discuss.ens.domains',
+  //  MIRROR: 'https://ens.mirror.xyz',
+  //  DISCOURSE: 'https://discuss.ens.domains',
   TELEGRAM: 'https://t.me/electroneum',
   GITHUB: 'https://github.com/electroneum',
   EMAIL: 'mailto:support@ens.domains',

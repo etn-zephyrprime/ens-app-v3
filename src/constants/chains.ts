@@ -45,7 +45,12 @@ export const getSupportedChainById = (chainId: number | undefined) =>
 
 export type SupportedChain = typeof mainnetWithEns | typeof sepoliaWithEns | typeof localhostWithEns
 
-export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | 'electroneum' | undefined => {
+export const getNetworkFromUrl = ():
+  | 'mainnet'
+  | 'sepolia'
+  | 'localhost'
+  | 'electroneum'
+  | undefined => {
   if (typeof window === 'undefined') return undefined
 
   const { hostname } = window.location
@@ -81,7 +86,12 @@ export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | 'elec
 
 export const getChainsFromUrl = () => {
   const network = getNetworkFromUrl()
-  const chainsWithEns = [mainnetWithEns, sepoliaWithEns, localhostWithEns, electroneumWithEns] as const
+  const chainsWithEns = [
+    mainnetWithEns,
+    sepoliaWithEns,
+    localhostWithEns,
+    electroneumWithEns,
+  ] as const
   return match(network)
     .with('mainnet', () => [mainnetWithEns])
     .with('sepolia', () => [sepoliaWithEns])
