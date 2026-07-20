@@ -45,7 +45,7 @@ export const getSupportedChainById = (chainId: number | undefined) =>
 
 export type SupportedChain = typeof mainnetWithEns | typeof sepoliaWithEns | typeof localhostWithEns
 
-export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | undefined => {
+export const getNetworkFromUrl = (): 'mainnet' | 'sepolia' | 'localhost' | 'electroneum' | undefined => {
   if (typeof window === 'undefined') return undefined
 
   const { hostname } = window.location
