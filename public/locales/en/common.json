@@ -1,9 +1,9 @@
 {
-  "title": "Your web3 username",
-  "description": "Your identity across web3, one name for all your crypto addresses, and your decentralised website.",
+  "title": "Your electroneum web3 username",
+  "description": "Your identity across electroneum 2.0 and the decentralized web.",
   "loading": "Loading",
   "notFound": "404 Not Found",
-  "etherscan": "Etherscan",
+  "etherscan": "Block Explorer",
   "upgradeBanner": {
     "title": "A new ENS app is here!",
     "subtitle": "Redesigned from the ground up for ENSv2.",

@@ -24,14 +24,14 @@ export const makeDisplay = ({
     options.roundingPriority = 'lessPrecision'
     options.currency = undefined
     customSymbol = ` ${symbol}`
-  } else if (symbol === 'eth') {
+} else if (symbol === 'etn') {
     if (number < 0.00001) {
       options.maximumSignificantDigits = 1
     }
     options.minimumFractionDigits = 4
     options.maximumFractionDigits = 4
     options.currencyDisplay = 'name'
-  } else {
+} else {
     options.maximumFractionDigits = 2
     options.minimumFractionDigits = 2
     options.currencyDisplay = symbol === 'usd' ? 'narrowSymbol' : 'symbol'

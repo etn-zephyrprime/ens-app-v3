@@ -17,21 +17,19 @@ export const makeCurrencyDisplay = ({
   bufferPercentage = 100n,
   currency = 'eth',
 }: Props & { ethPrice?: bigint }) => {
-  if (!eth || !ethPrice) return '0.0000 ETH'
+  if (!eth || !ethPrice) return '0.0000 ETN'
   if (currency === 'eth')
-    return makeDisplay({ value: (eth * bufferPercentage) / 100n, symbol: 'eth' })
+    return makeDisplay({ value: (eth * bufferPercentage) / 100n, symbol: 'etn' })
   return makeDisplay({ value: (eth * ethPrice) / BigInt(1e8), symbol: currency })
 }
 
 export const CurrencyText = ({ eth, bufferPercentage = 100n, currency = 'eth' }: Props) => {
   const { data: ethPrice, isLoading: isEthPriceLoading } = useEthPrice()
-
   const isLoading = isEthPriceLoading || !eth || !ethPrice
-
   return (
     <Skeleton loading={isLoading}>
       {(() => {
-        if (isLoading) return '0.0000 ETH'
+        if (isLoading) return '0.0000 ETN'
         return makeCurrencyDisplay({ eth, ethPrice, bufferPercentage, currency })
       })()}
     </Skeleton>

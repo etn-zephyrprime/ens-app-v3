@@ -1,4 +1,4 @@
-export const MANAGER_BASE_URL = 'https://app.ens.dev'
+export const MANAGER_BASE_URL = 'https://ens.electroneum.com'
 
 /**
  * When the legacy ETHRegistrarController has been removed as a controller of

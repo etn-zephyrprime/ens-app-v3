@@ -16,6 +16,7 @@ import { localhost, mainnet, sepolia } from 'wagmi/chains'
 import { ccipRequest } from '@ensdomains/ensjs/utils'
 
 import { getChainsFromUrl, SupportedChain } from '@app/constants/chains'
+import { electroneumTestnet } from '@app/utils/chains/electroneumChains'
 
 import { isInsideSafe } from '../safe'
 import { getCustomRpcForChain } from './customRpc'
@@ -23,8 +24,6 @@ import { buildChainTransport, drpcUrl, drpcWsUrl } from './transports'
 import { rainbowKitConnectors } from './wallets'
 
 const isLocalProvider = !!process.env.NEXT_PUBLIC_PROVIDER
-
-import { electroneumTestnet } from '@app/utils/chains/electroneumChains'
 
 const thirdwebClientId =
   process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID || '4e8c81182c3709ee441e30d776223354'
@@ -104,7 +103,8 @@ export const transports = {
     chainName: 'sepolia',
     customRpc: getCustomRpcForChain(sepolia.id),
   }),
-  [electroneumTestnet.id]: http( getCustomRpcForChain(electroneumTestnet.id)?.url ?? process.env.NEXT_PUBLIC_ETN_TESTNET_RPC_URL,
+  [electroneumTestnet.id]: http(
+    getCustomRpcForChain(electroneumTestnet.id)?.url ?? process.env.NEXT_PUBLIC_ETN_TESTNET_RPC_URL,
   ),
 } as const
 
@@ -163,26 +163,23 @@ const wagmiConfig_ = createConfig({
   multiInjectedProviderDiscovery: !isInsideSafe(),
   storage: createStorage({ storage: localStorageWithInvertMiddleware(), key: prefix }),
   chains,
-client: ({ chain }) => {
-  const chainId = chain.id
-  const isElectroneum = chainId === electroneumTestnet.id
+  client: ({ chain }) => {
+    const chainId = chain.id
 
-  return createClient<Transport, typeof chain>({
-    chain,
-    batch: isElectroneum
-      ? undefined
-      : {
-          multicall: {
-            batchSize: 8196,
-            wait: 50,
-          },
+    return createClient<Transport, typeof chain>({
+      chain,
+      batch: {
+        multicall: {
+          batchSize: 8196,
+          wait: 50,
         },
-    transport: (params) => transports[chainId]({ ...params }),
-    ccipRead: {
-      request: ccipRequest(chain),
-    },
-  })
-},
+      },
+      transport: (params) => transports[chainId]({ ...params }),
+      ccipRead: {
+        request: ccipRequest(chain),
+      },
+    })
+  },
 })
 
 export const wagmiConfig = wagmiConfig_ as typeof wagmiConfig_ & {

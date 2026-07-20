@@ -297,56 +297,6 @@ const PaymentChoice = ({
             </>
           )}
         </RadioButtonContainer>
-        <RadioButtonContainer>
-          <RadioButton
-            label={
-              <Box display="flex" flexWrap="wrap">
-                <RadioLabel>{t('steps.info.creditOrDebit')}</RadioLabel>
-                <Typography color="grey" weight="light">
-                  ({t('steps.info.additionalFee')})
-                </Typography>
-              </Box>
-            }
-            name="RadioButtonGroup"
-            value={PaymentMethod.moonpay}
-            onChange={(e) => setPaymentMethodChoice(e.currentTarget.value as PaymentMethod)}
-            defaultChecked={paymentMethodChoice === PaymentMethod.moonpay || undefined}
-          />
-          {paymentMethodChoice === PaymentMethod.moonpay && (
-            <>
-              <Spacer $height="4" />
-              <Box
-                display="flex"
-                flexDirection={{
-                  base: 'row',
-                  sm: 'column',
-                }}
-                alignItems={{
-                  base: 'center',
-                  sm: 'stretch',
-                }}
-                justifyContent="flex-start"
-                gap="4"
-              >
-                {moonpayInfoItems.map((item, idx) => (
-                  <InfoItem key={item}>
-                    <Typography>{idx + 1}</Typography>
-                    <Typography>{t(item)}</Typography>
-                  </InfoItem>
-                ))}
-              </Box>
-              <Spacer $height="4" />
-              {hasFailedMoonpayTransaction && (
-                <Helper alert="error">{t('steps.info.failedMoonpayTransaction')}</Helper>
-              )}
-              <Spacer $height="4" />
-              <MoonpayContainer>
-                {t('steps.info.poweredBy')}
-                <MoonpayLogo />
-              </MoonpayContainer>
-            </>
-          )}
-        </RadioButtonContainer>
       </RadioButtonGroup>
     </Box>
   )
