@@ -346,6 +346,7 @@ const Registration = ({ nameDetails, isLoading }: Props) => {
           ),
           trailing: match([labelTooLong, isRegistrationDisabled, step])
             .with([true, P._, P._], () => <Helper alert="error">{t('error.nameTooLong')}</Helper>)
+            .with([false, true, P._], () => <RegistrationDisabledBanner />)
             .with([false, false, 'pricing'], () => (
               <Pricing
                 name={normalisedName}
