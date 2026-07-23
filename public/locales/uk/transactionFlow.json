@@ -194,7 +194,7 @@
     "editResolver": {
       "title": "Редагувати Resolver",
       "latestLabel": "Використовувати останню версію resolver",
-      "etherscan": "Etherscan",
+      "etherscan": "Оглядач блоків",
       "latestMessage": "Ви використовуєте останню версію resolver",
       "customLabel": "Користувацький resolver",
       "customPlaceholder": "Введіть адресу користувацького resolver"
@@ -382,7 +382,7 @@
               "title": "Резюме змін",
               "updates": {
                 "role": "Оновити роль {{role}} на {{address}}",
-                "eth-record": "Оновити запис ETH на {{address}}"
+                "eth-record": "Оновити запис ETN на {{address}}"
               },
               "remove": {
                 "profile": "Видалити записи профілю"

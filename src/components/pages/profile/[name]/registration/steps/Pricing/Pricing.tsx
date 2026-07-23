@@ -92,7 +92,7 @@ const gridAreaStyle = ({ $name }: { $name: string }) => css`
   grid-area: ${$name};
 `
 
-const moonpayInfoItems = Array.from({ length: 2 }, (_, i) => `steps.info.moonpayItems.${i}`)
+//const moonpayInfoItems = Array.from({ length: 2 }, (_, i) => `steps.info.moonpayItems.${i}`)
 
 const RadioButtonContainer = styled.div(
   ({ theme }) => css`
@@ -114,50 +114,50 @@ const RadioLabel = styled(Typography)(
   `,
 )
 
-const MoonpayContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  color: var(--thrn-color-text);
-`
+//const MoonpayContainer = styled.div`
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//  gap: 5px;
+//  color: var(--thrn-color-text);
+//`
 
-const InfoItem = styled.div(
-  ({ theme }) => css`
-    width: 100%;
+//const InfoItem = styled.div(
+//  ({ theme }) => css`
+//    width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['4']};
+//    display: flex;
+//    flex-direction: column;
+//    align-items: center;
+//    justify-content: center;
+//    gap: ${theme.space['4']};
 
-    padding: ${theme.space['4']};
-    border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.large};
-    text-align: center;
+//    padding: ${theme.space['4']};
+//    border: 1px solid ${theme.colors.border};
+//    border-radius: ${theme.radii.large};
+//    text-align: center;
 
-    & > div:first-of-type {
-      width: ${theme.space['10']};
-      height: ${theme.space['10']};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: ${theme.fontSizes.extraLarge};
-      font-weight: ${theme.fontWeights.bold};
-      color: ${theme.colors.backgroundPrimary};
-      background: ${theme.colors.accentPrimary};
-      border-radius: ${theme.radii.full};
-    }
+//    & > div:first-of-type {
+//      width: ${theme.space['10']};
+//      height: ${theme.space['10']};
+//      display: flex;
+//      align-items: center;
+//      justify-content: center;
+//      font-size: ${theme.fontSizes.extraLarge};
+//      font-weight: ${theme.fontWeights.bold};
+//      color: ${theme.colors.backgroundPrimary};
+//      background: ${theme.colors.accentPrimary};
+//      border-radius: ${theme.radii.full};
+//    }
 
-    & > div:last-of-type {
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  `,
-)
+//    & > div:last-of-type {
+//      flex-grow: 1;
+//      display: flex;
+//      align-items: center;
+//      justify-content: center;
+//    }
+//  `,
+//)
 
 const CheckboxWrapper = styled.div(
   () => css`
@@ -225,8 +225,6 @@ const PaymentChoice = ({
   paymentMethodChoice,
   setPaymentMethodChoice,
   hasEnoughEth,
-  hasPendingMoonpayTransaction,
-  hasFailedMoonpayTransaction,
   address,
   hasPrimaryName,
   reverseRecord,
@@ -236,8 +234,6 @@ const PaymentChoice = ({
   paymentMethodChoice: PaymentMethod
   setPaymentMethodChoice: Dispatch<SetStateAction<PaymentMethod>>
   hasEnoughEth: boolean
-  hasPendingMoonpayTransaction: boolean
-  hasFailedMoonpayTransaction: boolean
   address: string
   hasPrimaryName: boolean
   reverseRecord: boolean
@@ -266,7 +262,6 @@ const PaymentChoice = ({
             label={<RadioLabel>{t('steps.info.ethereum')}</RadioLabel>}
             name="RadioButtonGroup"
             value={PaymentMethod.ethereum}
-            disabled={hasPendingMoonpayTransaction}
             defaultChecked={paymentMethodChoice === PaymentMethod.ethereum || undefined}
             onChange={(e) => setPaymentMethodChoice(e.currentTarget.value as PaymentMethod)}
           />
@@ -294,56 +289,6 @@ const PaymentChoice = ({
                 </OutlinedContainerDescription>
               </OutlinedContainer>
               <Spacer $height="2" />
-            </>
-          )}
-        </RadioButtonContainer>
-        <RadioButtonContainer>
-          <RadioButton
-            label={
-              <Box display="flex" flexWrap="wrap">
-                <RadioLabel>{t('steps.info.creditOrDebit')}</RadioLabel>
-                <Typography color="grey" weight="light">
-                  ({t('steps.info.additionalFee')})
-                </Typography>
-              </Box>
-            }
-            name="RadioButtonGroup"
-            value={PaymentMethod.moonpay}
-            onChange={(e) => setPaymentMethodChoice(e.currentTarget.value as PaymentMethod)}
-            defaultChecked={paymentMethodChoice === PaymentMethod.moonpay || undefined}
-          />
-          {paymentMethodChoice === PaymentMethod.moonpay && (
-            <>
-              <Spacer $height="4" />
-              <Box
-                display="flex"
-                flexDirection={{
-                  base: 'row',
-                  sm: 'column',
-                }}
-                alignItems={{
-                  base: 'center',
-                  sm: 'stretch',
-                }}
-                justifyContent="flex-start"
-                gap="4"
-              >
-                {moonpayInfoItems.map((item, idx) => (
-                  <InfoItem key={item}>
-                    <Typography>{idx + 1}</Typography>
-                    <Typography>{t(item)}</Typography>
-                  </InfoItem>
-                ))}
-              </Box>
-              <Spacer $height="4" />
-              {hasFailedMoonpayTransaction && (
-                <Helper alert="error">{t('steps.info.failedMoonpayTransaction')}</Helper>
-              )}
-              <Spacer $height="4" />
-              <MoonpayContainer>
-                {t('steps.info.poweredBy')}
-                <MoonpayLogo />
-              </MoonpayContainer>
             </>
           )}
         </RadioButtonContainer>
@@ -420,12 +365,10 @@ export const ActionButton = (props: ActionButtonProps) => {
       P.when(
         (_props) =>
           typeof _props.balance?.value !== 'bigint' ||
-          !_props.totalRequiredBalance ||
-          !_props.ethPrice,
+          !_props.totalRequiredBalance
       ),
       () => (
-        <Button data-testid="next-button" disabled>
-          {t('loading', { ns: 'common' })}
+        <Button data-testid="next-button" disabled loading>{t('steps.info.processing')}
         </Button>
       ),
     )

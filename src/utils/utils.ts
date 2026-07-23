@@ -13,6 +13,8 @@ import { CURRENCY_FLUCTUATION_BUFFER_PERCENTAGE } from './constants'
 import { calculateDatesDiff } from './date'
 import { ONE_YEAR } from './time'
 
+import { electroneumWithEns } from '@app/constants/chains'
+
 export * from './time'
 
 export const shortenAddress = (address = '', maxLength = 10, leftSlice = 5, rightSlice = 5) => {
@@ -90,7 +92,7 @@ export const formatDurationOfDates = ({
 }
 
 export const makeEtherscanLink = (data: string, network?: string, route: string = 'tx') =>
-  `https://${!network || network === 'mainnet' ? '' : `${network}.`}etherscan.io/${route}/${data}`
+  `${electroneumWithEns.blockExplorers.default.url}/${route}/${data}`
 
 export const isBrowser = !!(
   typeof window !== 'undefined' &&

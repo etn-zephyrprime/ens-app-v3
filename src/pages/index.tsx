@@ -9,7 +9,7 @@ import Hamburger from '@app/components/@molecules/Hamburger/Hamburger'
 import LegacyAppBanner from '@app/components/@molecules/LegacyAppBanner/LegacyAppBanner'
 import { SearchInput } from '@app/components/@molecules/SearchInput/SearchInput'
 import { LeadingHeading } from '@app/components/LeadingHeading'
-import { AnnouncementBanner } from '@app/components/pages/AnnouncementBanner'
+//import { AnnouncementBanner } from '@app/components/pages/AnnouncementBanner'
 import { useIsEthRegistrarControllerActive } from '@app/hooks/registration/useIsEthRegistrarControllerActive'
 
 import ENSFull from '../assets/ENSFull.svg'
@@ -121,7 +121,6 @@ export default function Page() {
           </SubtitleWrapper>
           <SearchInput />
 
-          {isLegacy ? <LegacyAppBanner /> : <AnnouncementBanner />}
         </Stack>
       </Container>
     </>

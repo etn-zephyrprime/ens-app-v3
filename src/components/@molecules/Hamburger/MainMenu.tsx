@@ -17,11 +17,12 @@ import {
 } from '@ensdomains/thorin'
 
 import SocialDiscord from '@app/assets/social/SocialDiscord.svg'
-import SocialDiscourse from '@app/assets/social/SocialDiscourse.svg'
-import SocialDiscourseColour from '@app/assets/social/SocialDiscourseColour.svg'
+//import SocialDiscourse from '@app/assets/social/SocialDiscourse.svg'
+//import SocialDiscourseColour from '@app/assets/social/SocialDiscourseColour.svg'
 import SocialGithub from '@app/assets/social/SocialGithub.svg'
-import SocialMirror from '@app/assets/social/SocialMirror.svg'
-import SocialMirrorColour from '@app/assets/social/SocialMirrorColour.svg'
+//import SocialMirror from '@app/assets/social/SocialMirror.svg'
+//import SocialMirrorColour from '@app/assets/social/SocialMirrorColour.svg'
+import SocialTelegram from '@app/assets/social/SocialTelegram.svg'
 import SocialX from '@app/assets/social/SocialX.svg'
 import SocialYoutube from '@app/assets/social/SocialYoutube.svg'
 import BaseLink from '@app/components/@atoms/BaseLink'
@@ -329,12 +330,7 @@ const MainMenu = ({ setCurrentView }: { setCurrentView: (view: HamburgerView) =>
         <SocialIcon Icon={SocialX} color="black" href={ENS_LINKS.X} />
         <SocialIcon Icon={SocialGithub} color="#0F0F0F" href={ENS_LINKS.GITHUB} />
         <SocialIcon Icon={SocialDiscord} color="#7F83FF" href={ENS_LINKS.DISCORD} />
-        <SocialIcon Icon={SocialMirror} ColoredIcon={SocialMirrorColour} href={ENS_LINKS.MIRROR} />
-        <SocialIcon
-          Icon={SocialDiscourse}
-          ColoredIcon={SocialDiscourseColour}
-          href={ENS_LINKS.DISCOURSE}
-        />
+        <SocialIcon Icon={SocialTelegram} href={ENS_LINKS.TELEGRAM} />
         <SocialIcon Icon={SocialYoutube} color="#EE1919" href={ENS_LINKS.YOUTUBE} />
       </SocialSection>
       <NetworkSection />

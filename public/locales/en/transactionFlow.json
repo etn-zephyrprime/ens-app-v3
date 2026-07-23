@@ -204,7 +204,7 @@
     "editResolver": {
       "title": "Edit Resolver",
       "latestLabel": "Use latest resolver",
-      "etherscan": "Etherscan",
+      "etherscan": "Block Explorer",
       "latestMessage": "You are on the latest resolver",
       "customLabel": "Custom resolver",
       "customPlaceholder": "Enter custom resolver address"
@@ -392,7 +392,7 @@
               "title": "Summary of changes",
               "updates": {
                 "role": "Update {{role}} role to {{address}}",
-                "eth-record": "Update ETH record to {{address}}"
+                "eth-record": "Update ETN record to {{address}}"
               },
               "remove": {
                 "profile": "Remove profile records"

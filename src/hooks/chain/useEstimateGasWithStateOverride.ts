@@ -33,7 +33,7 @@ import {
 import { DISCONNECTED_PLACEHOLDER_ADDRESS, emptyAddress } from '@app/utils/constants'
 import { getIsCachedData } from '@app/utils/getIsCachedData'
 import { prepareQueryOptions } from '@app/utils/prepareQueryOptions'
-import { createAccessList } from '@app/utils/query/createAccessList'
+//import { createAccessList } from '@app/utils/query/createAccessList'
 import { useQuery } from '@app/utils/query/useQuery'
 
 import { useGasPrice } from './useGasPrice'
@@ -112,6 +112,15 @@ type QueryKey<
   TParams extends UseEstimateGasWithStateOverrideParameters<TransactionItems>,
 > = CreateQueryKey<TParams, 'estimateGasWithStateOverride', 'standard'>
 
+// Ankr's Electroneum RPC node doesn't support the stateOverride parameter on
+// eth_estimateGas, so simulated gas estimates aren't possible for transactions
+// that rely on it (e.g. registerName's commit-maturity time-travel trick).
+// These are conservative static approximations used as a fallback in that case.
+const FALLBACK_GAS_ESTIMATES: Partial<Record<TransactionName, bigint>> = {
+  commitName: 80_000n,
+  registerName: 300_000n,
+}
+
 const leftPadBytes32 = (hex: Hex) => padHex(hex, { dir: 'left', size: 32 })
 
 const concatKey = (existing: Hex, key: Hex) => keccak256(concatHex([leftPadBytes32(key), existing]))
@@ -176,17 +185,23 @@ const estimateIndividualGas = async <TName extends TransactionName>({
   // To get the access list, we're executing the bytecode of this Yul code: https://gist.github.com/TateB/777287c9a63d5f02fcd905232ce5748a
   // (note: 0xed3869F3020315C839b2f4E9a73bEbE9a9670534 is replaced with `connectorClient.account.address`)
   // It does a simple transfer, and accesses any storage slot that would be accessed by any other transfer.
-  const accessList = await createAccessList(client, {
-    from: emptyAddress,
-    data: concatHex(['0x5f808080600173', connectorClient.account.address, '0x5af100']),
-    value: '0x1',
-  })
+// Removed accessList code for now since it requires Shanghai to be enabled on the node, and we don't want to require that for this feature. If we need it in the future, we can re-add it.
+//  const accessList = await createAccessList(client, {
+//    from: emptyAddress,
+//    data: concatHex(['0x5f808080600173', connectorClient.account.address, '0x5af100']),
+//    value: '0x1',
+//  })
 
-  const formattedRequest = formatTransactionRequest({
-    ...generatedRequest,
-    from: connectorClient.account.address,
-    accessList: accessList.accessList,
-  })
+//  const formattedRequest = formatTransactionRequest({
+//    ...generatedRequest,
+//    from: connectorClient.account.address,
+//    accessList: accessList.accessList,
+//  })
+// Using this version of formattedRequest for now, since it doesn't require Shanghai to be enabled on the node. If we need the access list in the future, we can re-add it.
+const formattedRequest = formatTransactionRequest({
+  ...generatedRequest,
+  from: connectorClient.account.address,
+})
 
   const stateOverrideWithBalance = stateOverride?.find(
     (s) => s.address === connectorClient.account.address,
@@ -215,8 +230,8 @@ const estimateIndividualGas = async <TName extends TransactionName>({
     ]),
   )
 
-  return client
-    .request<{
+try {
+    const gas = await client.request<{
       Method: 'eth_estimateGas'
       Parameters:
         | [transaction: RpcTransactionRequest]
@@ -231,7 +246,14 @@ const estimateIndividualGas = async <TName extends TransactionName>({
       method: 'eth_estimateGas',
       params: [formattedRequest, 'latest', formattedOverrides],
     })
-    .then((g) => hexToBigInt(g))
+    return hexToBigInt(gas)
+  } catch (error) {
+    const isUnsupportedParamsError =
+      (error as { code?: number })?.code === -32602 ||
+      /too many arguments/i.test((error as { details?: string })?.details || '')
+    if (!isUnsupportedParamsError) throw error
+    return FALLBACK_GAS_ESTIMATES[name] ?? 150_000n
+  }
 }
 
 export const estimateGasWithStateOverrideQueryFn =

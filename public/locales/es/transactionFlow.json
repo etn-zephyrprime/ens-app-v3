@@ -195,7 +195,7 @@
     "editResolver": {
       "title": "Editar Resolver",
       "latestLabel": "Usar el resolver más reciente",
-      "etherscan": "Etherscan",
+      "etherscan": "Explorador de bloques",
       "latestMessage": "Estás en el resolver más reciente",
       "customLabel": "Resolver personalizado",
       "customPlaceholder": "Ingresa la dirección de tu resolver personalizado"
@@ -383,7 +383,7 @@
               "title": "Resumen de cambios",
               "updates": {
                 "role": "Actualizar rol {{role}} a {{address}}",
-                "eth-record": "Actualizar registro ETH a {{address}}"
+                "eth-record": "Actualizar registro ETN a {{address}}"
               },
               "remove": {
                 "profile": "Eliminar registros de perfil"
