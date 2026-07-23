@@ -58,7 +58,7 @@
     "@ensdomains/content-hash": "^3.1.1",
     "@ensdomains/ens-contracts": "1.6.0",
     "@ensdomains/ens-test-env": "1.0.1",
-    "@ensdomains/ensjs": "^4.3.0",
+    "@ensdomains/ensjs": "github:electroneum/ensjs#main&path:/packages/ensjs",
     "@ensdomains/thorin": "1.0.0-beta.28",
     "@getpara/rainbowkit": "1.4.0",
     "@getpara/rainbowkit-wallet": "1.4.0",
@@ -105,7 +105,7 @@
     "tinyglobby": "^0.2.6",
     "ts-pattern": "^4.3.0",
     "use-immer": "^0.7.0",
-    "viem": "2.19.4",
+    "viem": "^2.35.0",
     "wagmi": "2.12.4"
   },
   "peerDependencies": {

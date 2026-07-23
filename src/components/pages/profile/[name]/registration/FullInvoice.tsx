@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 
-import { Colors, CurrencyToggle } from '@ensdomains/thorin'
+import { Colors } from '@ensdomains/thorin'
 
 import GasDisplay from '@app/components/@atoms/GasDisplay'
 import { Invoice } from '@app/components/@atoms/Invoice/Invoice'
 import { useEstimateFullRegistration } from '@app/hooks/gasEstimation/useEstimateRegistration'
 import { CURRENCY_FLUCTUATION_BUFFER_PERCENTAGE } from '@app/utils/constants'
-import useUserConfig from '@app/utils/useUserConfig'
+//import useUserConfig from '@app/utils/useUserConfig'
 import { formatDurationOfDates, ONE_DAY } from '@app/utils/utils'
 
 const OptionBar = styled.div(
@@ -43,8 +43,8 @@ const FullInvoice = ({
 }: Props) => {
   const { t } = useTranslation(['register', 'common'])
 
-  const { userConfig, setCurrency } = useUserConfig()
-  const currencyDisplay = userConfig.currency === 'fiat' ? userConfig.fiat : 'eth'
+//  const { userConfig, setCurrency } = useUserConfig()
+//  const currencyDisplay = userConfig.currency === 'fiat' ? userConfig.fiat : 'eth'
 
   const invoiceItems = useMemo(() => {
     const now = Math.floor(Date.now())
@@ -82,13 +82,8 @@ const FullInvoice = ({
     <InvoiceContainer>
       <OptionBar>
         <GasDisplay gasPrice={gasPrice} />
-        <CurrencyToggle
-          size="small"
-          checked={userConfig.currency === 'fiat'}
-          onChange={(e) => setCurrency(e.target.checked ? 'fiat' : 'eth')}
-        />
       </OptionBar>
-      <Invoice items={invoiceItems} unit={currencyDisplay} totalLabel={t('invoice.total')} />
+      <Invoice items={invoiceItems} unit="eth" totalLabel={t('invoice.total')} />
     </InvoiceContainer>
   )
 }

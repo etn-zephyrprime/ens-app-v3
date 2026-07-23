@@ -357,7 +357,7 @@
     "error": {
       "unknown": "An unknown error occurred"
     },
-    "viewEtherscan": "View on Etherscan",
+    "viewEtherscan": "View on Block Explorer",
     "viewOnBlockExplorer": "View on {{blockExplorer}}",
     "viewMore": "View More"
   },
@@ -418,7 +418,7 @@
       "description": "An address that can change the profile."
     },
     "eth-record": {
-      "title": "ETH record",
+      "title": "ETN record",
       "description": "The address that this name points to."
     }
   },

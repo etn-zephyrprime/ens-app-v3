@@ -365,12 +365,10 @@ export const ActionButton = (props: ActionButtonProps) => {
       P.when(
         (_props) =>
           typeof _props.balance?.value !== 'bigint' ||
-          !_props.totalRequiredBalance ||
-          !_props.ethPrice,
+          !_props.totalRequiredBalance
       ),
       () => (
-        <Button data-testid="next-button" disabled>
-          {t('loading', { ns: 'common' })}
+        <Button data-testid="next-button" disabled loading>{t('steps.info.processing')}
         </Button>
       ),
     )

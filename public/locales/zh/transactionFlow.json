@@ -195,7 +195,7 @@
     "editResolver": {
       "title": "编辑解析器",
       "latestLabel": "使用最新的解析器",
-      "etherscan": "Etherscan",
+      "etherscan": "区块浏览器",
       "latestMessage": "您已经在使用最新的解析器",
       "customLabel": "自定义解析器",
       "customPlaceholder": "输入自定义解析器地址"
@@ -383,7 +383,7 @@
               "title": "更改摘要",
               "updates": {
                 "role": "更新 {{role}} 角色为 {{address}}",
-                "eth-record": "更新 ETH 记录为 {{address}}"
+                "eth-record": "更新 ETN 记录为 {{address}}"
               },
               "remove": {
                 "profile": "删除个人资料记录"

@@ -33,7 +33,7 @@ test.describe('Happy', () => {
       // check that etherscan link is correct
       await expect(page.getByTestId('latest-resolver-etherscan')).toHaveAttribute(
         'href',
-        `https://localhost.etherscan.io/address/${newResolver}`,
+        `https://localhost.electroneum.blockexplorer.com/address/${newResolver}`,
       )
 
       await expect(page.getByTestId('latest-resolver-radio')).toBeDisabled()
