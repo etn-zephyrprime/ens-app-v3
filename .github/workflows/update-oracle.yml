@@ -2,7 +2,7 @@ name: Update ETN/USD Oracle
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/60 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
