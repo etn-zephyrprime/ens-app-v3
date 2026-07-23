@@ -79,4 +79,4 @@ certificates
 # Claude
 .playwright-mcp
 .claude
-/thoughts
+/thoughts.env
