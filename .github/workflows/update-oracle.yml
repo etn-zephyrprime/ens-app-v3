@@ -2,7 +2,7 @@ name: Update ETN/USD Oracle
 
 on:
   schedule:
-    - cron: '*/60 * * * *'
+    - cron: '0 * * * *' # every hour
   workflow_dispatch:
     inputs:
       dry_run:
@@ -13,13 +13,16 @@ on:
 jobs:
   update-oracle:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts/oracle
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install viem
-      - run: node scripts/update-oracle.js
+      - run: npm ci
+      - run: node update-oracle.js
         env:
           ORACLE_ADDRESS: ${{ secrets.ORACLE_ADDRESS }}
           ORACLE_OWNER_PRIVATE_KEY: ${{ secrets.ORACLE_OWNER_PRIVATE_KEY }}

@@ -3,7 +3,6 @@ import { formatUnits } from 'viem'
 
 import { PaymentMethod } from '@app/components/pages/profile/[name]/registration/types'
 import { trackEvent as sendTrackEvent } from '@app/utils/analytics'
-import useUserConfig from '@app/utils/useUserConfig'
 
 import { useChainName } from './chain/useChainName'
 
@@ -61,7 +60,6 @@ export type TrackEventParameters =
 
 export const useEventTracker = () => {
   const chain = useChainName()
-  const { userConfig } = useUserConfig()
 
   const trackEvent = (props: TrackEventParameters) => {
     match(props)
@@ -96,7 +94,7 @@ export const useEventTracker = () => {
       .with({ eventName: 'payment_selected' }, ({ eventName, customProperties }) => {
         const { duration, ethPrice, estimatedTotal, paymentMethod } = customProperties
         const paymentAmount = formatUnits((estimatedTotal * ethPrice) / BigInt(1e8), 18)
-        const currencyUnit = userConfig.currency === 'fiat' ? userConfig.fiat : 'eth'
+        const currencyUnit = 'eth'
         const paymentType = paymentMethod === PaymentMethod.ethereum ? 'eth' : 'fiat'
 
         sendTrackEvent(eventName, chain, {

@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 import { match } from 'ts-pattern'
 
 import {
-  CurrencyToggle,
   LanguageSVG,
   MoonSVG,
   RightChevronSVG,
@@ -13,7 +12,6 @@ import {
   ThemeSVG,
   Typography,
   useTheme,
-  WalletSVG,
 } from '@ensdomains/thorin'
 
 import SocialDiscord from '@app/assets/social/SocialDiscord.svg'
@@ -34,7 +32,6 @@ import { routes } from '@app/routes'
 import { ENS_LINKS } from '@app/utils/constants'
 import { makeDisplay } from '@app/utils/currency'
 import { useGraphOutOfSync } from '@app/utils/SyncProvider/SyncProvider'
-import useUserConfig from '@app/utils/useUserConfig'
 
 import type { HamburgerView } from './Hamburger'
 
@@ -261,7 +258,6 @@ const disconnectedRoutes = routes.filter(
 const MainMenu = ({ setCurrentView }: { setCurrentView: (view: HamburgerView) => void }) => {
   const { t, i18n } = useTranslation('common')
   const language = i18n.resolvedLanguage || 'en'
-  const { userConfig, setCurrency } = useUserConfig()
 
   const { mode: theme } = useTheme()
 
@@ -302,20 +298,6 @@ const MainMenu = ({ setCurrentView }: { setCurrentView: (view: HamburgerView) =>
             <RightChevronSVG height={16} width={16} />
           </div>
         </HoverableSettingsItem>
-        <SettingsItem>
-          <div>
-            <WalletSVG height={16} width={16} />
-            <Typography weight="bold">{t('navigation.currency')}</Typography>
-          </div>
-          <div>
-            <CurrencyToggle
-              size="extraSmall"
-              fiat={userConfig.fiat}
-              checked={userConfig.currency === 'fiat'}
-              onChange={(e) => setCurrency(e.target.checked ? 'fiat' : 'eth')}
-            />
-          </div>
-        </SettingsItem>
       </SettingsSection>
       <RoutesSection>
         {disconnectedRoutes.map((route) => (

@@ -6,15 +6,7 @@ import { match, P } from 'ts-pattern'
 import { parseEther } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 
-import {
-  Avatar,
-  Banner,
-  Button,
-  CurrencyToggle,
-  Dialog,
-  Helper,
-  Typography,
-} from '@ensdomains/thorin'
+import { Avatar, Banner, Button, Dialog, Helper, Typography } from '@ensdomains/thorin'
 
 import { CacheableComponent } from '@app/components/@atoms/CacheableComponent'
 import { makeCurrencyDisplay } from '@app/components/@atoms/CurrencyText/CurrencyText'
@@ -27,7 +19,6 @@ import { useExpiry } from '@app/hooks/ensjs/public/useExpiry'
 import { usePrice } from '@app/hooks/ensjs/public/usePrice'
 import { useIsEthRegistrarControllerActive } from '@app/hooks/registration/useIsEthRegistrarControllerActive'
 import { useEnsAvatar } from '@app/hooks/useEnsAvatar'
-import { useEthPrice } from '@app/hooks/useEthPrice'
 import { useReferrer } from '@app/hooks/useReferrer'
 import { useZorb } from '@app/hooks/useZorb'
 import { createTransactionItem } from '@app/transaction-flow/transaction'
@@ -35,7 +26,6 @@ import { TransactionDialogPassthrough } from '@app/transaction-flow/types'
 import { CURRENCY_FLUCTUATION_BUFFER_PERCENTAGE } from '@app/utils/constants'
 import { getReferrerHex } from '@app/utils/referrer'
 import { ONE_DAY, ONE_YEAR, secondsToYears, yearsToSeconds } from '@app/utils/time'
-import useUserConfig from '@app/utils/useUserConfig'
 import { deriveYearlyFee, formatDurationOfDates } from '@app/utils/utils'
 
 import { ShortExpiry } from '../../../components/@atoms/ExpiryComponents/ExpiryComponents'
@@ -227,14 +217,10 @@ const ExtendNames = ({
     useIsEthRegistrarControllerActive()
   const isRenewalDisabled = isControllerActive === false
 
-  const { data: ethPrice, isLoading: isEthPriceLoading } = useEthPrice()
   const { address, isConnected: isAccountConnected } = useAccount()
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
     address,
   })
-
-  const { userConfig, setCurrency } = useUserConfig()
-  const currencyDisplay = userConfig.currency === 'fiat' ? userConfig.fiat : 'eth'
 
   const { data: priceData, isLoading: isPriceLoading } = usePrice({
     nameOrNames: names,
@@ -333,7 +319,6 @@ const ExtendNames = ({
     !isAccountConnected ||
     isBalanceLoading ||
     isExpiryEnabledAndLoading ||
-    isEthPriceLoading ||
     isControllerActiveLoading
   const isRegisterLoading = isPriceLoading || (isEstimateGasLoading && !estimateGasLimitError)
 
@@ -378,9 +363,7 @@ const ExtendNames = ({
             startDateTimestamp: expiryDate?.getTime(),
             displayPrice: makeCurrencyDisplay({
               eth: totalRentFee,
-              ethPrice,
               bufferPercentage: CURRENCY_FLUCTUATION_BUFFER_PERCENTAGE,
-              currency: userConfig.currency === 'fiat' ? 'usd' : 'eth',
             }),
             referrer: referrerHex,
             hasWrapped,
@@ -453,12 +436,6 @@ const ExtendNames = ({
               </PlusMinusWrapper>
               <OptionBar $isCached={isPriceLoading}>
                 <GasDisplay gasPrice={gasPrice} />
-                <CurrencyToggle
-                  size="small"
-                  checked={userConfig.currency === 'fiat'}
-                  onChange={(e) => setCurrency(e.target.checked ? 'fiat' : 'eth')}
-                  data-testid="extend-names-currency-toggle"
-                />
               </OptionBar>
               <GasEstimationCacheableComponent
                 $isCached={
@@ -467,7 +444,7 @@ const ExtendNames = ({
                   isShowingPreviousYearlyFee
                 }
               >
-                <Invoice items={items} unit={currencyDisplay} totalLabel="Estimated total" />
+                <Invoice items={items} totalLabel="Estimated total" />
                 {(!!estimateGasLimitError ||
                   (!!estimatedGasLimit &&
                     !!balance?.value &&
